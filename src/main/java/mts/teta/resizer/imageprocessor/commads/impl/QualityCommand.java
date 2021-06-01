@@ -3,7 +3,9 @@ package mts.teta.resizer.imageprocessor.commads.impl;
 import mts.teta.resizer.imageprocessor.commads.Command;
 import net.coobird.thumbnailator.Thumbnails;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,9 +25,11 @@ public class QualityCommand implements Command {
     @Override
     public void execute() throws IOException {
 
-        ImageIcon img = new ImageIcon(inputFile.getPath());
+        BufferedImage img = ImageIO.read(inputFile);
+        int width = img.getWidth();
+        int height = img.getHeight();
         Thumbnails.of(inputFile)
-                .forceSize(img.getImage().getWidth(null), img.getImage().getHeight(null))
+                .size(width, height)
                 .outputQuality(quality)
                 .toFile(outputFile);
     }
